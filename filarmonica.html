@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Filarmonica din Cahul</title>
+  <style>
+    :root {
+      --bg: #f6efe5;
+      --surface: rgba(255, 248, 240, 0.84);
+      --surface-strong: #fffaf3;
+      --ink: #1f1a17;
+      --muted: #665b54;
+      --accent: #a23e2f;
+      --accent-dark: #69231b;
+      --gold: #d6a24a;
+      --line: rgba(31, 26, 23, 0.12);
+      --shadow: 0 20px 60px rgba(79, 42, 24, 0.14);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top left, rgba(214, 162, 74, 0.22), transparent 30%),
+        radial-gradient(circle at 85% 15%, rgba(162, 62, 47, 0.2), transparent 26%),
+        linear-gradient(180deg, #f9f3ea 0%, #efe1cf 100%);
+      min-height: 100vh;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+      background-size: 32px 32px;
+      pointer-events: none;
+      opacity: 0.35;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .container {
+      width: min(1120px, calc(100% - 2rem));
+      margin: 0 auto;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(14px);
+      background: rgba(246, 239, 229, 0.76);
+      border-bottom: 1px solid rgba(31, 26, 23, 0.08);
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 1rem 0;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.9rem;
+      font-size: 0.95rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .brand-mark {
+      width: 46px;
+      height: 46px;
+      display: grid;
+      place-items: center;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
+      color: #fff7f0;
+      font-weight: bold;
+      box-shadow: var(--shadow);
+    }
+
+    nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      color: var(--muted);
+      font-size: 0.98rem;
+    }
+
+    .hero {
+      padding: 5rem 0 3rem;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 2rem;
+      align-items: stretch;
+    }
+
+    .hero-copy,
+    .hero-panel,
+    .card,
+    .event-card,
+    .contact-card {
+      background: var(--surface);
+      border: 1px solid rgba(255, 255, 255, 0.7);
+      box-shadow: var(--shadow);
+      border-radius: 28px;
+    }
+
+    .hero-copy {
+      padding: 3rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-copy::after {
+      content: "";
+      position: absolute;
+      width: 220px;
+      height: 220px;
+      right: -60px;
+      bottom: -60px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(214, 162, 74, 0.26), transparent 68%);
+    }
+
+    .eyebrow {
+      display: inline-block;
+      margin-bottom: 1rem;
+      padding: 0.45rem 0.85rem;
+      border-radius: 999px;
+      background: rgba(162, 62, 47, 0.09);
+      color: var(--accent-dark);
+      font-size: 0.85rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    h1,
+    h2,
+    h3 {
+      margin: 0;
+      font-weight: 600;
+      line-height: 1.05;
+    }
+
+    h1 {
+      font-size: clamp(2.7rem, 6vw, 5.6rem);
+      max-width: 10ch;
+    }
+
+    .lead {
+      margin: 1.3rem 0 0;
+      max-width: 62ch;
+      font-size: 1.08rem;
+      line-height: 1.75;
+      color: var(--muted);
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      padding: 0.9rem 1.4rem;
+      border-radius: 999px;
+      font-size: 0.98rem;
+      transition: transform 0.25s ease, background 0.25s ease;
+    }
+
+    .button:hover {
+      transform: translateY(-2px);
+    }
+
+    .button-primary {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .button-secondary {
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.42);
+    }
+
+    .hero-panel {
+      padding: 1.5rem;
+      display: grid;
+      gap: 1rem;
+    }
+
+    .hero-stage {
+      min-height: 290px;
+      border-radius: 22px;
+      position: relative;
+      overflow: hidden;
+      background:
+        linear-gradient(180deg, rgba(24, 19, 16, 0.1), rgba(24, 19, 16, 0.54)),
+        url("https://images.unsplash.com/photo-1503095396549-807759245b35?auto=format&fit=crop&w=1200&q=80") center/cover;
+    }
+
+    .hero-stage::before,
+    .hero-stage::after {
+      content: "";
+      position: absolute;
+      inset: auto;
+      border-radius: 50%;
+      filter: blur(6px);
+    }
+
+    .hero-stage::before {
+      width: 170px;
+      height: 170px;
+      background: rgba(214, 162, 74, 0.3);
+      top: 24px;
+      left: 22px;
+    }
+
+    .hero-stage::after {
+      width: 120px;
+      height: 120px;
+      background: rgba(255, 247, 240, 0.18);
+      bottom: 26px;
+      right: 28px;
+    }
+
+    .panel-content {
+      display: grid;
+      gap: 0.9rem;
+      padding: 0.6rem 0.2rem 0.2rem;
+    }
+
+    .meta-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      padding-bottom: 0.9rem;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .meta-row:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .meta-label {
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+    }
+
+    .meta-value {
+      font-size: 1.05rem;
+      text-align: right;
+    }
+
+    section {
+      padding: 2rem 0 4rem;
+    }
+
+    .section-head {
+      margin-bottom: 1.4rem;
+      max-width: 70ch;
+    }
+
+    .section-head p {
+      margin: 0.8rem 0 0;
+      color: var(--muted);
+      line-height: 1.75;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1.2rem;
+    }
+
+    .card {
+      padding: 1.7rem;
+    }
+
+    .card h3 {
+      font-size: 1.4rem;
+      margin-bottom: 0.7rem;
+    }
+
+    .card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .accent-line {
+      width: 56px;
+      height: 3px;
+      border-radius: 999px;
+      margin: 0 0 1rem;
+      background: linear-gradient(90deg, var(--accent), var(--gold));
+    }
+
+    .events {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1.2rem;
+    }
+
+    .event-card {
+      padding: 1.5rem;
+    }
+
+    .date {
+      display: inline-block;
+      margin-bottom: 1rem;
+      color: var(--accent-dark);
+      font-size: 0.92rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .event-card p {
+      color: var(--muted);
+      line-height: 1.7;
+      margin-bottom: 1.2rem;
+    }
+
+    .event-card strong {
+      display: block;
+      font-size: 1.25rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 1.2rem;
+    }
+
+    .gallery-large,
+    .gallery-stack > div {
+      border-radius: 28px;
+      min-height: 240px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      position: relative;
+    }
+
+    .gallery-large {
+      background:
+        linear-gradient(180deg, rgba(27, 19, 16, 0.12), rgba(27, 19, 16, 0.48)),
+        url("https://images.unsplash.com/photo-1465847899084-d164df4dedc6?auto=format&fit=crop&w=1200&q=80") center/cover;
+    }
+
+    .gallery-stack {
+      display: grid;
+      gap: 1.2rem;
+    }
+
+    .gallery-stack > div:first-child {
+      background:
+        linear-gradient(180deg, rgba(27, 19, 16, 0.12), rgba(27, 19, 16, 0.44)),
+        url("https://images.unsplash.com/photo-1511379938547-c1f69419868d?auto=format&fit=crop&w=1200&q=80") center/cover;
+    }
+
+    .gallery-stack > div:last-child {
+      background:
+        linear-gradient(180deg, rgba(27, 19, 16, 0.12), rgba(27, 19, 16, 0.44)),
+        url("https://images.unsplash.com/photo-1501386761578-eac5c94b800a?auto=format&fit=crop&w=1200&q=80") center/cover;
+    }
+
+    .overlay {
+      position: absolute;
+      inset: auto 0 0 0;
+      padding: 1.2rem 1.4rem;
+      color: #fff9f4;
+      background: linear-gradient(180deg, transparent, rgba(22, 14, 12, 0.74));
+    }
+
+    .contact-wrap {
+      display: grid;
+      grid-template-columns: 0.95fr 1.05fr;
+      gap: 1.2rem;
+    }
+
+    .contact-card {
+      padding: 1.8rem;
+    }
+
+    .contact-card p {
+      margin: 0.7rem 0 0;
+      line-height: 1.75;
+      color: var(--muted);
+    }
+
+    .contact-list {
+      display: grid;
+      gap: 1rem;
+      margin-top: 1.3rem;
+    }
+
+    .contact-item {
+      padding-top: 1rem;
+      border-top: 1px solid var(--line);
+    }
+
+    .contact-item:first-child {
+      border-top: none;
+      padding-top: 0;
+    }
+
+    footer {
+      padding: 0 0 2.5rem;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    @media (max-width: 920px) {
+      .hero-grid,
+      .gallery,
+      .contact-wrap,
+      .cards,
+      .events {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        padding-top: 3rem;
+      }
+
+      .hero-copy {
+        padding: 2rem;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .nav {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      h1 {
+        max-width: none;
+      }
+
+      .hero-copy,
+      .card,
+      .event-card,
+      .contact-card {
+        border-radius: 22px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container nav">
+      <a class="brand" href="#top">
+        <span class="brand-mark">FC</span>
+        <span>Filarmonica din Cahul</span>
+      </a>
+      <nav>
+        <a href="#despre">Despre</a>
+        <a href="#program">Program</a>
+        <a href="#galerie">Galerie</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <span class="eyebrow">Arta sonora a sudului</span>
+          <h1>Filarmonica din Cahul</h1>
+          <p class="lead">
+            Un spatiu dedicat muzicii simfonice, corale si camerale, unde publicul din Cahul se intalneste cu emotia
+            concertelor live, talentul artistilor locali si farmecul serilor culturale.
+          </p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="#program">Vezi programul</a>
+            <a class="button button-secondary" href="#contact">Rezerva o vizita</a>
+          </div>
+        </div>
+
+        <aside class="hero-panel">
+          <div class="hero-stage" aria-hidden="true"></div>
+          <div class="panel-content">
+            <div class="meta-row">
+              <div>
+                <div class="meta-label">Locatie</div>
+                <div class="meta-value">Cahul, Republica Moldova</div>
+              </div>
+            </div>
+            <div class="meta-row">
+              <div>
+                <div class="meta-label">Profil</div>
+                <div class="meta-value">Concerte, festivaluri, educatie muzicala</div>
+              </div>
+            </div>
+            <div class="meta-row">
+              <div>
+                <div class="meta-label">Atmosfera</div>
+                <div class="meta-value">Eleganta clasica cu energie contemporana</div>
+              </div>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section id="despre">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Despre noi</span>
+          <h2>O scena pentru muzica, identitate si comunitate</h2>
+          <p>
+            Filarmonica din Cahul poate fi prezentata ca un centru cultural care aduce impreuna artisti,
+            tineri interpreti si iubitori ai muzicii intr-un cadru rafinat. Misiunea sa este sa pastreze
+            traditia muzicii academice si sa o apropie de noile generatii prin proiecte accesibile si vii.
+          </p>
+        </div>
+
+        <div class="cards">
+          <article class="card">
+            <div class="accent-line"></div>
+            <h3>Repertoriu variat</h3>
+            <p>
+              De la lucrari simfonice si partituri corale pana la seri tematice, jazz instrumental si colaborari
+              interdisciplinare, fiecare sezon are o identitate proprie.
+            </p>
+          </article>
+
+          <article class="card">
+            <div class="accent-line"></div>
+            <h3>Sprijin pentru talente</h3>
+            <p>
+              Filarmonica promoveaza artistii emergenti din regiune, ofera o scena pentru debuturi si incurajeaza
+              dialogul dintre muzicieni consacrati si tinerii interpreti.
+            </p>
+          </article>
+
+          <article class="card">
+            <div class="accent-line"></div>
+            <h3>Experienta memorabila</h3>
+            <p>
+              Publicul descopera seri construite atent, cu lumina calda, acustica placuta si un program care invita
+              la emotie, reflectie si bucuria intalnirii prin muzica.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="program">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Program artistic</span>
+          <h2>Evenimente care dau ritm orasului</h2>
+          <p>
+            Mai jos este un exemplu de program pentru prezentarea site-ului. El poate fi adaptat rapid cu date reale,
+            descrieri complete, preturi pentru bilete sau formular de rezervare.
+          </p>
+        </div>
+
+        <div class="events">
+          <article class="event-card">
+            <span class="date">12 aprilie • ora 18:30</span>
+            <strong>Seara simfonica de primavara</strong>
+            <p>
+              Un concert dedicat lucrarilor clasice luminoase, interpretate intr-o atmosfera eleganta si deschisa
+              pentru intreaga familie.
+            </p>
+            <a href="#contact">Solicita informatii</a>
+          </article>
+
+          <article class="event-card">
+            <span class="date">27 aprilie • ora 19:00</span>
+            <strong>Dialog intre cor si orchestra</strong>
+            <p>
+              Vocile corale si instrumentele se intalnesc intr-un program expresiv, inspirat din patrimoniul european
+              si sensibilitatea locala.
+            </p>
+            <a href="#contact">Rezerva locuri</a>
+          </article>
+
+          <article class="event-card">
+            <span class="date">10 mai • ora 17:00</span>
+            <strong>Matineu pentru tineri melomani</strong>
+            <p>
+              Prezentari accesibile, demonstratii live si momente interactive menite sa apropie copiii si adolescentii
+              de universul muzicii culte.
+            </p>
+            <a href="#contact">Afla detalii</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="galerie">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Galerie</span>
+          <h2>Imagine, lumina si vibratia scenei</h2>
+          <p>
+            Aceasta zona poate gazdui fotografii din concerte, repetitii, portrete de artisti sau imagini cu sala de
+            spectacole pentru a oferi vizitatorilor o impresie vizuala imediata.
+          </p>
+        </div>
+
+        <div class="gallery">
+          <div class="gallery-large">
+            <div class="overlay">
+              <h3>Seri de gala</h3>
+              <p>Momente ample, concepute pentru publicul care iubeste rafinamentul concertelor live.</p>
+            </div>
+          </div>
+          <div class="gallery-stack">
+            <div>
+              <div class="overlay">
+                <h3>Repetitii si ateliere</h3>
+                <p>Spatiul in care muzica prinde forma, iar ideile devin interpretare.</p>
+              </div>
+            </div>
+            <div>
+              <div class="overlay">
+                <h3>Invitati speciali</h3>
+                <p>Colaborari artistice care pot aduce prospetime si prestigiu programelor filarmonicii.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <div class="container contact-wrap">
+        <div class="contact-card">
+          <span class="eyebrow">Contact</span>
+          <h2>Hai sa transformam aceasta pagina in site-ul oficial</h2>
+          <p>
+            Structura este pregatita pentru informatii reale despre adresa, telefon, email, retele sociale si sistem
+            de rezervari. Putem adauga si o harta, un formular de contact sau o pagina separata pentru bilete.
+          </p>
+        </div>
+
+        <div class="contact-card">
+          <h3>Date de prezentare</h3>
+          <div class="contact-list">
+            <div class="contact-item">
+              <div class="meta-label">Adresa</div>
+              <div class="meta-value" style="text-align:left;">Municipiul Cahul, centru cultural si artistic</div>
+            </div>
+            <div class="contact-item">
+              <div class="meta-label">Email</div>
+              <div class="meta-value" style="text-align:left;">contact@filarmonicacahul.md</div>
+            </div>
+            <div class="contact-item">
+              <div class="meta-label">Telefon</div>
+              <div class="meta-value" style="text-align:left;">+373 000 00 000</div>
+            </div>
+            <div class="contact-item">
+              <div class="meta-label">Program</div>
+              <div class="meta-value" style="text-align:left;">Luni - Sambata, 10:00 - 19:00</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      Pagina demonstrativa in limba romana pentru Filarmonica din Cahul. Continutul poate fi actualizat usor cu
+      informatii oficiale, imagini locale si evenimente reale.
+    </div>
+  </footer>
+</body>
+</html>
