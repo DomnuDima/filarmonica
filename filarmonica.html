@@ -6,16 +6,16 @@
   <title>Filarmonica din Cahul</title>
   <style>
     :root {
-      --bg: #f6efe5;
-      --surface: rgba(255, 248, 240, 0.84);
-      --surface-strong: #fffaf3;
-      --ink: #1f1a17;
-      --muted: #665b54;
-      --accent: #a23e2f;
-      --accent-dark: #69231b;
+      --bg: #0b1626;
+      --surface: rgba(12, 24, 40, 0.86);
+      --surface-strong: #0f243d;
+      --ink: #eef3fb;
+      --muted: #c4d1e4;
+      --accent: #7aa6d6;
+      --accent-dark: #4a6b93;
       --gold: #d6a24a;
-      --line: rgba(31, 26, 23, 0.12);
-      --shadow: 0 20px 60px rgba(79, 42, 24, 0.14);
+      --line: rgba(235, 245, 255, 0.16);
+      --shadow: 0 24px 70px rgba(0, 38, 58, 0.5), 0 8px 28px rgba(0, 38, 58, 0.28);
     }
 
     * {
@@ -30,10 +30,7 @@
       margin: 0;
       font-family: Georgia, "Times New Roman", serif;
       color: var(--ink);
-      background:
-        radial-gradient(circle at top left, rgba(214, 162, 74, 0.22), transparent 30%),
-        radial-gradient(circle at 85% 15%, rgba(162, 62, 47, 0.2), transparent 26%),
-        linear-gradient(180deg, #f9f3ea 0%, #efe1cf 100%);
+      background: #050a12;
       min-height: 100vh;
     }
 
@@ -41,12 +38,64 @@
       content: "";
       position: fixed;
       inset: 0;
-      background-image:
-        linear-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.08) 1px, transparent 1px);
-      background-size: 32px 32px;
+      background:
+        linear-gradient(180deg, rgba(4, 8, 15, 0.35), rgba(4, 8, 15, 0.6)),
+        radial-gradient(circle at 18% 18%, rgba(122, 166, 214, 0.22), transparent 42%),
+        radial-gradient(circle at 82% 12%, rgba(214, 162, 74, 0.18), transparent 46%),
+        linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+      background-size: auto, auto, auto, 32px 32px, 32px 32px;
       pointer-events: none;
-      opacity: 0.35;
+      opacity: 0.4;
+      z-index: -1;
+    }
+
+    .video-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      overflow: hidden;
+      background: #050a12;
+    }
+
+    .video-backdrop video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: saturate(0.95) brightness(0.98) contrast(1.05);
+      transition: opacity 0.6s ease;
+      opacity: 1;
+    }
+
+    .video-backdrop video.is-fading {
+      opacity: 0;
+    }
+
+    .video-control {
+      position: fixed;
+      right: 1.4rem;
+      bottom: 1.4rem;
+      z-index: 30;
+      padding: 0.75rem 1.1rem;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      background: rgba(8, 14, 24, 0.7);
+      color: var(--ink);
+      font-size: 0.95rem;
+      letter-spacing: 0.04em;
+      cursor: pointer;
+      backdrop-filter: blur(8px);
+      transition: transform 0.2s ease, background 0.2s ease;
+    }
+
+    .video-control:hover {
+      transform: translateY(-2px);
+      background: rgba(10, 18, 32, 0.85);
+    }
+
+    .video-control:focus-visible {
+      outline: 2px solid var(--gold);
+      outline-offset: 2px;
     }
 
     a {
@@ -64,8 +113,8 @@
       top: 0;
       z-index: 20;
       backdrop-filter: blur(14px);
-      background: rgba(246, 239, 229, 0.76);
-      border-bottom: 1px solid rgba(31, 26, 23, 0.08);
+      background: rgba(8, 18, 32, 0.78);
+      border-bottom: 1px solid rgba(235, 245, 255, 0.12);
     }
 
     .nav {
@@ -88,12 +137,11 @@
     .brand-mark {
       width: 46px;
       height: 46px;
-      display: grid;
-      place-items: center;
+      display: block;
       border-radius: 14px;
-      background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
-      color: #fff7f0;
-      font-weight: bold;
+      object-fit: cover;
+      background: #fffaf3;
+      border: 1px solid rgba(31, 26, 23, 0.18);
       box-shadow: var(--shadow);
     }
 
@@ -106,7 +154,9 @@
     }
 
     .hero {
+      position: relative;
       padding: 5rem 0 3rem;
+      background: transparent;
     }
 
     .hero-grid {
@@ -114,6 +164,8 @@
       grid-template-columns: 1.2fr 0.8fr;
       gap: 2rem;
       align-items: stretch;
+      position: relative;
+      z-index: 1;
     }
 
     .hero-copy,
@@ -141,7 +193,7 @@
       right: -60px;
       bottom: -60px;
       border-radius: 50%;
-      background: radial-gradient(circle, rgba(214, 162, 74, 0.26), transparent 68%);
+      background: radial-gradient(circle, rgba(78, 118, 168, 0.28), transparent 68%);
     }
 
     .eyebrow {
@@ -222,7 +274,7 @@
       overflow: hidden;
       background:
         linear-gradient(180deg, rgba(24, 19, 16, 0.1), rgba(24, 19, 16, 0.54)),
-        url("https://images.unsplash.com/photo-1503095396549-807759245b35?auto=format&fit=crop&w=1200&q=80") center/cover;
+        url("images/629585089_789658050817683_4117648977571431938_n.jpg") center/cover;
     }
 
     .hero-stage::before,
@@ -237,7 +289,8 @@
     .hero-stage::before {
       width: 170px;
       height: 170px;
-      background: rgba(214, 162, 74, 0.3);
+      background: radial-gradient(circle, rgba(122, 166, 214, 0.55) 0%, rgba(0, 38, 58, 0.1) 60%, transparent 70%);
+      box-shadow: 0 0 40px rgba(122, 166, 214, 0.45);
       top: 24px;
       left: 22px;
     }
@@ -245,7 +298,8 @@
     .hero-stage::after {
       width: 120px;
       height: 120px;
-      background: rgba(255, 247, 240, 0.18);
+      background: radial-gradient(circle, rgba(122, 166, 214, 0.55) 0%, rgba(0, 38, 58, 0.1) 60%, transparent 70%);
+      box-shadow: 0 0 32px rgba(122, 166, 214, 0.45);
       bottom: 26px;
       right: 28px;
     }
@@ -363,7 +417,8 @@
     }
 
     .gallery-large,
-    .gallery-stack > div {
+    .gallery-stack > div,
+    .gallery-stack > a {
       border-radius: 28px;
       min-height: 240px;
       overflow: hidden;
@@ -382,13 +437,21 @@
       gap: 1.2rem;
     }
 
-    .gallery-stack > div:first-child {
+    .gallery-stack > div,
+    .gallery-stack > a {
+      display: block;
+      min-height: 340px;
+    }
+
+    .gallery-stack > div:first-child,
+    .gallery-stack > a:first-child {
       background:
         linear-gradient(180deg, rgba(27, 19, 16, 0.12), rgba(27, 19, 16, 0.44)),
         url("https://images.unsplash.com/photo-1511379938547-c1f69419868d?auto=format&fit=crop&w=1200&q=80") center/cover;
     }
 
-    .gallery-stack > div:last-child {
+    .gallery-stack > div:last-child,
+    .gallery-stack > a:last-child {
       background:
         linear-gradient(180deg, rgba(27, 19, 16, 0.12), rgba(27, 19, 16, 0.44)),
         url("https://images.unsplash.com/photo-1501386761578-eac5c94b800a?auto=format&fit=crop&w=1200&q=80") center/cover;
@@ -478,10 +541,20 @@
   </style>
 </head>
 <body>
+  <div class="video-backdrop" aria-hidden="true">
+    <video id="bgVideo" autoplay muted loop playsinline preload="auto">
+      <source src="images/untitled design.mp4" type="video/mp4" />
+    </video>
+  </div>
+
+  <button class="video-control" id="videoToggle" type="button" aria-pressed="false">
+    Pause background
+  </button>
+
   <header>
     <div class="container nav">
       <a class="brand" href="#top">
-        <span class="brand-mark">FC</span>
+        <img class="brand-mark" src="images/images.jfif" alt="Filarmonica Municipală Cahul" />
         <span>Filarmonica din Cahul</span>
       </a>
       <nav>
@@ -635,25 +708,19 @@
         </div>
 
         <div class="gallery">
-          <div class="gallery-large">
+          <a class="gallery-large" href="https://drive.google.com/file/d/1U0z9X6im3xatl08TGoL4p9soAVSgj8Qf/view?usp=drive_link" target="_blank" rel="noopener noreferrer">
             <div class="overlay">
               <h3>Seri de gala</h3>
               <p>Momente ample, concepute pentru publicul care iubeste rafinamentul concertelor live.</p>
             </div>
-          </div>
+          </a>
           <div class="gallery-stack">
-            <div>
-              <div class="overlay">
-                <h3>Repetitii si ateliere</h3>
-                <p>Spatiul in care muzica prinde forma, iar ideile devin interpretare.</p>
-              </div>
-            </div>
-            <div>
+            <a href="https://drive.google.com/file/d/1U0z9X6im3xatl08TGoL4p9soAVSgj8Qf/view?usp=drive_link" target="_blank" rel="noopener noreferrer">
               <div class="overlay">
                 <h3>Invitati speciali</h3>
                 <p>Colaborari artistice care pot aduce prospetime si prestigiu programelor filarmonicii.</p>
               </div>
-            </div>
+            </a>
           </div>
         </div>
       </div>
@@ -701,5 +768,60 @@
       informatii oficiale, imagini locale si evenimente reale.
     </div>
   </footer>
+
+  <script>
+    const bgVideo = document.getElementById("bgVideo");
+    const videoToggle = document.getElementById("videoToggle");
+
+    const videoSources = [
+      "images/untitled design.mp4"
+    ];
+
+    let currentVideo = 0;
+    let isCycling = true;
+
+    const setVideoSource = (index) => {
+      bgVideo.classList.add("is-fading");
+      window.setTimeout(() => {
+        bgVideo.src = videoSources[index];
+        bgVideo.load();
+        bgVideo.play().catch(() => {});
+        bgVideo.classList.remove("is-fading");
+      }, 300);
+    };
+
+    const nextVideo = () => {
+      if (!isCycling) {
+        return;
+      }
+      currentVideo = (currentVideo + 1) % videoSources.length;
+      setVideoSource(currentVideo);
+    };
+
+    const updateButton = () => {
+      const isPaused = bgVideo.paused;
+      videoToggle.textContent = isPaused ? "Play background" : "Pause background";
+      videoToggle.setAttribute("aria-pressed", String(!isPaused));
+    };
+
+    videoToggle.addEventListener("click", () => {
+      if (bgVideo.paused) {
+        isCycling = true;
+        bgVideo.play();
+      } else {
+        bgVideo.pause();
+        isCycling = false;
+      }
+      updateButton();
+    });
+
+    bgVideo.addEventListener("pause", updateButton);
+    bgVideo.addEventListener("play", updateButton);
+    bgVideo.addEventListener("ended", nextVideo);
+    bgVideo.addEventListener("error", nextVideo);
+
+    bgVideo.removeAttribute("loop");
+    updateButton();
+  </script>
 </body>
 </html>
